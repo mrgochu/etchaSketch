@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="index.css">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="container"></div>
+</body>
+<script>
+    document.getElementById('container').style.display = "flex";    
+    const container = document.querySelector('#container');
+    const divs = container.querySelectorAll('div')
+    container.setAttribute("class", "contains");
+    for (let i = 0; i < 16; i++){
+        const div = document.createElement('div');
+        for (let i = 0; i < 16; i++){
+            div.appendChild(document.createElement('div'));
+        }
+        container.appendChild(div);
+    }
+    console.log(divs.length);
+
+
+</script>
+</html>
