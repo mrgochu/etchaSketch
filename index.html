@@ -5,25 +5,98 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Etch-a-Sketch</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Boogaloo&family=Mochiy+Pop+P+One&family=Press+Start+2P&family=Righteous&family=Roboto&family=Zen+Kurenaido&display=swap" rel="stylesheet">
+    <!-- <script src = "index.js"></script> -->
+    <script
+      src="https://kit.fontawesome.com/4c536a6bd5.js"
+      crossorigin="anonymous"
+    ></script>
 </head>
 <body>
-    <div id="container"></div>
+    <h1>Etch-a-Sketch</h1>
+    <div class="content">
+        <div class="buttons">
+            <button id="clear">CLEAR</button>
+            <button id="color">COLOR</button>
+            <button id="black">BLACK</button>
+        </div>
+        <div id="container"></div>
+    </div>
+    <footer class="footer">
+        Copyright &copy; 2022 mrgochu
+        <a href="https://github.com/mrgochu" style="text-decoration: none;">
+            <i class="fab fa-github"></i>
+        </a>
+    </footer>
 </body>
 <script>
+    const DEFAULT_SQUARES = 16;
+    const colors = ["red", "orange", "yellow", "green", "blue", "indigo", "violet", "black"]
     document.getElementById('container').style.display = "flex";    
     const container = document.querySelector('#container');
-    const divs = container.querySelectorAll('div')
     container.setAttribute("class", "contains");
-    for (let i = 0; i < 16; i++){
-        const div = document.createElement('div');
-        for (let i = 0; i < 16; i++){
-            div.appendChild(document.createElement('div'));
-        }
-        container.appendChild(div);
-    }
-    console.log(divs.length);
 
+    let colorBool = true;
+
+    //setting the board. numSquares is how many squares across and down. colorBool is where black=true and color=false
+    //by default colorBool is true, or black, and numSquares is 16.
+    function setSquares(numSquares, colorBool){
+        for (let i = 0; i < numSquares; i++){
+            const div = document.createElement('div');
+            for (let i = 0; i < numSquares; i++){
+                const div2 = document.createElement('div')
+                div.appendChild(div2);
+                const randomColor = Math.floor(Math.random() * colors.length);
+
+                if (colorBool == true){
+                    div2.addEventListener('mouseover', function() {this.style.backgroundColor = "black"});
+                }
+                else{
+                    div2.addEventListener('mouseover', function() {this.style.backgroundColor = `${colors[randomColor]}`});
+                    colorBool = false;
+                }
+
+                let dimensions = 960 / numSquares;
+                div2.style.width = `${dimensions}px`;
+                div2.style.height = `${dimensions}px`;
+                // this.style.backgroundColor = "black";
+                // div2.style.backgroundColor = "red";
+            }
+            container.appendChild(div);
+        }   
+    }
+
+    setSquares(DEFAULT_SQUARES, true);
+
+    //clear function with clear button
+    document.getElementById('clear').addEventListener('click', function() {
+        container.innerHTML=""; 
+        let numSquares = prompt("Enter Number of Squares (MAX: 100)")
+        if (numSquares == ""){
+            numSquares = 16;
+        }
+        while (numSquares > 100){
+            numSquares = prompt("Please enter number lower than 100: ");
+        }
+        setSquares(parseInt(numSquares), colorBool); 
+        });
+    
+    //changing pen to randomized colors - associated with color button
+    document.getElementById('color').addEventListener('click', function(){
+        container.innerHTML="";
+        colorBool = false;
+        setSquares(DEFAULT_SQUARES, colorBool);
+    })
+
+    //changing pen to black - associated with black button
+    document.getElementById('black').addEventListener('click', function(){
+        container.innerHTML=""; 
+        colorBool = true;
+        setSquares(DEFAULT_SQUARES, colorBool);
+    })
 
 </script>
 </html>
